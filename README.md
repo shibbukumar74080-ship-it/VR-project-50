@@ -3,8 +3,8 @@
 
 <b>Discipline | <b>Fill your discipline name here
 :--|:--|
-<b> Lab | <b> Fill your lab name here
-<b> Experiment|     <b> Fill your experiment name and number here
+<b> Lab | <b> project50:allow users to rotate he virtual polarizers
+<b> Experiment|     <b> 
 
 ### About the Experiment 
 project50:allow users to rotate he virtual polarizers
