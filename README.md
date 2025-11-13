@@ -4,7 +4,7 @@
 <b>Discipline | <b>shibbu kumar
 :--|:--|
 <b> Lab | <b> 
-<b> |  project50:allow users to rotate he virtual polarizers   <b> 
+<b> |experiment|   <b> 
 
 ### About the Experiment 
 project50:allow users to rotate he virtual polarizers
