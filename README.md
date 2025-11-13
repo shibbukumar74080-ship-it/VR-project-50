@@ -7,8 +7,7 @@
 <b> Experiment|     <b> Fill your experiment name and number here
 
 ### About the Experiment 
-
-Fill a brief description of this experiment here
+project50:allow users to rotate he virtual polarizers
 
 <b>Name of Developer | <b> Fill the name of experiment owner here 
 :--|:--|
