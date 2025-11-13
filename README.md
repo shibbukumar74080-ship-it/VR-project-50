@@ -3,8 +3,8 @@
 
 <b>Discipline | <b>shibbu kumar
 :--|:--|
-<b> Lab | <b> project50:allow users to rotate he virtual polarizers
-<b> Experiment|     <b> 
+<b> Lab | <b> 
+<b> |  project50:allow users to rotate he virtual polarizers   <b> 
 
 ### About the Experiment 
 project50:allow users to rotate he virtual polarizers
@@ -19,5 +19,5 @@ project50:allow users to rotate he virtual polarizers
 
 SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
-1 | shibbu kumar | ashutosh tiwari | information technology | rajkiya engineering college banda | shibbu74080@gmail.c
+1 | shibbu kumar | ashutosh tiwari | information technology | rajkiya engineering college banda | shibbu74080@gmail.com
 2 | . | . | . | . | .
