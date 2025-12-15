@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Polarizer Rotation – Advanced Virtual Lab</title>
+  <style>
+    body{
+      margin:0;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:radial-gradient(circle at top,#0a2540,#000814);
+      font-family:Arial, sans-serif;
+      color:#ffffff;
+    }
+    .container{
+      width:1100px;
+      background:rgba(2,6,23,0.95);
+      padding:20px 30px;
+      border-radius:18px;
+      box-shadow:0 20px 50px rgba(0,0,0,0.7);
+    }
+    h1{
+      text-align:center;
+      margin-bottom:10px;
+      padding:12px;
+      background:linear-gradient(90deg,#1e90ff,#00bcd4);
+      border-radius:12px;
+      font-size:28px;
+    }
+    canvas{
+      display:block;
+      margin:10px auto;
+      background:#020617;
+      border-radius:12px;
+    }
+    .controls{
+      display:flex;
+      justify-content:space-around;
+      margin-top:15px;
+      align-items:flex-start;
+      font-size:14px;
+    }
+    .box{ text-align:center; }
+    input[type=range]{ width:260px; }
+    .bar{
+      width:220px;
+      height:12px;
+      background:#1e293b;
+      border-radius:6px;
+      overflow:hidden;
+      margin-top:6px;
+    }
+    .fill{
+      height:100%;
+      width:100%;
+      background:#facc15;
+      transition:width 0.2s;
+    }
+    .note{
+      margin-top:10px;
+      font-size:13px;
+      color:#cbd5f5;
+      text-align:center;
+    }
+    .btn{
+      margin-top:12px;
+      text-align:center;
+    }
+    button{
+      padding:8px 22px;
+      font-size:14px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      background:#22c55e;
+      color:#022c22;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h1>Virtual Polarization of Light – Advanced Simulation</h1>
+
+  <canvas id="canvas" width="1000" height="420"></canvas>
+
+  <div class="controls">
+    <div class="box">
+      Polarizer-1 Angle (θ₁)<br>
+      <span id="a1Text">0°</span><br>
+      <input type="range" id="a1" min="0" max="180" value="0">
+    </div>
+    <div class="box">
+      Polarizer-2 Angle (θ₂)<br>
+      <span id="a2Text">0°</span><br>
+      <input type="range" id="a2" min="0" max="180" value="0">
+    </div>
+    <div class="box">
+      Relative Angle |θ₁−θ₂|<br>
+      <span id="rel">0°</span>
+    </div>
+    <div class="box">
+      Intensity (I / I₀)<br>
+      <span id="intensityText">1.00</span>
+      <div class="bar"><div id="fill" class="fill"></div></div>
+    </div>
+  </div>
+
+  <div class="btn">
+    <button id="toggleBtn">▶ Start</button>
+  </div>
+
+  <div class="note">
+    Intensity follows Malus’ Law: I = I₀ cos²(θ₁ − θ₂)
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+const a1Slider = document.getElementById('a1');
+const a2Slider = document.getElementById('a2');
+const a1Text = document.getElementById('a1Text');
+const a2Text = document.getElementById('a2Text');
+const relText = document.getElementById('rel');
+const intensityText = document.getElementById('intensityText');
+const fill = document.getElementById('fill');
+const toggleBtn = document.getElementById('toggleBtn');
+
+let t = 0;
+let running = false;
+
+toggleBtn.onclick = () => {
+  running = !running;
+  toggleBtn.textContent = running ? '⏸ Stop' : '▶ Start';
+  toggleBtn.style.background = running ? '#ef4444' : '#22c55e';
+};
+
+function drawSource(){
+  ctx.beginPath();
+  ctx.fillStyle = '#fde047';
+  ctx.arc(60,210,18,0,Math.PI*2);
+  ctx.fill();
+}
+
+function drawUnpolarized(){
+  for(let i=0;i<6;i++){
+    ctx.beginPath();
+    ctx.strokeStyle='rgba(250,204,21,0.8)';
+    ctx.lineWidth=2;
+    ctx.moveTo(80,210);
+    for(let x=0;x<240;x++){
+      let y=210+Math.sin(x*0.05+t+i)*(15+i*2);
+      ctx.lineTo(80+x,y);
+    }
+    ctx.stroke();
+  }
+}
+
+function drawPolarizer(x,angle){
+  ctx.save();
+  ctx.translate(x,210);
+  ctx.rotate(angle);
+  ctx.beginPath();
+  ctx.lineWidth=10;
+  ctx.strokeStyle='rgba(180,200,255,0.9)';
+  ctx.arc(0,0,70,0,Math.PI*2);
+  ctx.stroke();
+  for(let i=-60;i<=60;i+=12){
+    ctx.beginPath();
+    ctx.strokeStyle='rgba(200,200,200,0.6)';
+    ctx.moveTo(i,-60);
+    ctx.lineTo(i,60);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function drawAfter(angle){
+  ctx.save();
+  ctx.translate(700,210);
+  ctx.rotate(angle);
+  for(let i=-2;i<=2;i++){
+    ctx.beginPath();
+    ctx.strokeStyle='rgba(255,100,220,0.6)';
+    ctx.lineWidth=3;
+    ctx.moveTo(0,i*10);
+    for(let x=0;x<240;x++){
+      let y=Math.sin(x*0.05+t)*20+i*10;
+      ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function animate(){
+  requestAnimationFrame(animate);
+  if(!running) return;
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  const a1=a1Slider.value*Math.PI/180;
+  const a2=a2Slider.value*Math.PI/180;
+  const rel=Math.abs(a1-a2);
+  const I=Math.cos(rel)**2;
+
+  a1Text.textContent=a1Slider.value+'°';
+  a2Text.textContent=a2Slider.value+'°';
+  relText.textContent=Math.abs(a1Slider.value-a2Slider.value)+'°';
+
+  drawSource();
+  drawUnpolarized();
+  drawPolarizer(400,a1);
+  drawPolarizer(600,a2);
+
+  ctx.globalAlpha=I;
+  drawAfter(a2);
+  ctx.globalAlpha=1;
+
+  ctx.beginPath();
+  ctx.fillStyle=`rgba(255,220,120,${I})`;
+  ctx.arc(940,210,12+22*I,0,Math.PI*2);
+  ctx.fill();
+
+  intensityText.textContent=I.toFixed(2);
+  fill.style.width=(I*100).toFixed(0)+'%';
+
+  t+=0.05;
+}
+
+animate();
+</script>
+</body>
+</html>
