@@ -19,5 +19,5 @@ project50:allow users to rotate he virtual polarizers
 
 SrNo | Name | Faculty or Student | Department| Institute | Email id
 :--|:--|:--|:--|:--|:--|
-1 | shibbu kumar | ashutosh tiwari | information technology | rajkiya engineering college banda | shibbu74080@gmail.com
-2 | . | . | . | . | .
+1 | shibbu kumar | student | information technology | rajkiya engineering college banda | shibbu74080@gmail.com
+2 | xyz. | student. | information technology. | rajkiya engineering college banda. | xyz@gmail.com.
